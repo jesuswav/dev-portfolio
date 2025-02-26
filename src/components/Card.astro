@@ -1,0 +1,86 @@
+---
+// Card.astro
+interface Project {
+  name: string;
+  image: string;
+  technologies: string[];
+}
+
+const { project } = Astro.props as { project: Project };
+---
+<div class="card">
+  <img src={project.image} alt={project.name} class="card-image" />
+  <div class="card-content">
+    <h3>{project.name}</h3>
+    <ul class="tech-list">
+      {project.technologies.map((tech: string) => (
+        <li>{tech}</li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .card {
+    background-color: #1f1f1f; /* Fondo oscuro */
+    border: 1px solid #333333; /* Borde sutil */
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .card-content h3 {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+    color: #e0e0e0; /* Texto claro */
+  }
+
+  .tech-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tech-list li {
+    background-color: #bb86fc; /* Color de acento (morado claro) */
+    color: #121212; /* Fondo oscuro */
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .card-content {
+      padding: 1rem;
+    }
+
+    .card-content h3 {
+      font-size: 1.25rem;
+    }
+
+    .tech-list li {
+      font-size: 0.8rem;
+    }
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+// projects.astro
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+
+// Definir el tipo Project
+type Project = {
+  name: string;
+  image: string;
+  technologies: string[];
+};
+
+// Array de proyectos de ejemplo
+const projects: Project[] = [
+  {
+    name: "Proyecto 1",
+    image: "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
+    technologies: ["React", "Node.js", "Tailwind CSS"],
+  },
+  {
+    name: "Proyecto 2",
+    image: "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
+    technologies: ["Next.js", "TypeScript", "Firebase"],
+  },
+  {
+    name: "Proyecto 3",
+    image: "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
+    technologies: ["Vue.js", "Express", "MongoDB"],
+  },
+];
+---
+<Layout>
+  <h1>Mis Proyectos</h1>
+  <div class="projects-grid">
+    {projects.map((project) => (
+      <Card project={project} />
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+      padding: 1rem 0;
+    }
+  }
+</style>
