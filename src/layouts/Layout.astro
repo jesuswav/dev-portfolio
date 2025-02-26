@@ -1,22 +1,88 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+// MainLayout.astro
+import Nav from '../components/Nav.astro';
+---
+<html>
+  <head>
+    <title>Mi Sitio con Astro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <!-- Importar la tipografía Poppins desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <slot /> <!-- Aquí se renderizará el contenido de cada página -->
+    </main>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <style>
+      /* Estilos globales */
+      body {
+        background-color: #121212; /* Fondo oscuro */
+        color: #e0e0e0; /* Texto claro */
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      h1, h2, h3 {
+        color: #e0e0e0; /* Texto claro */
+        font-weight: 600;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      h3 {
+        font-size: 1.75rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #e0e0e0; /* Texto claro */
+      }
+
+      a {
+        color: #bb86fc; /* Color de acento (morado claro) */
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        h2 {
+          font-size: 1.75rem;
+        }
+
+        h3 {
+          font-size: 1.5rem;
+        }
+
+        main {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </body>
+</html>
