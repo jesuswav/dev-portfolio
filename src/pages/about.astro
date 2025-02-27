@@ -1,8 +1,22 @@
 ---
 // about.astro
 import Layout from '../layouts/Layout.astro';
+import CodeSnippet from '../components/CodeSnippet.astro';
+
+// Ejemplo de respuesta JSON de una API
+const apiResponse = {
+  status: "success",
+  data: {
+    id: 1,
+    name: "John Doe",
+    email: "john.doe@example.com",
+    isActive: true,
+    createdAt: "2023-10-01T12:00:00Z",
+  },
+};
 ---
 <Layout>
   <h1>Acerca de</h1>
   <p>Información sobre mi sitio y su propósito.</p>
+  <CodeSnippet code={apiResponse} />
 </Layout>

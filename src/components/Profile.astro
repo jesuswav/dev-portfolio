@@ -1,0 +1,124 @@
+---
+// Profile.astro
+const { name, career, bio, image, socialLinks } = Astro.props;
+---
+
+<div class="profile">
+    <div class="profile-image">
+        <img src={image} alt={`Foto de ${name}`} />
+    </div>
+    <div class="profile-info">
+        <h1>{name}</h1>
+        <h2>{career}</h2>
+        <p>{bio}</p>
+        <div class="social-links">
+            {
+                socialLinks.map((link: any) => (
+                    <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img src={link.icon} alt={link.name} />
+                    </a>
+                ))
+            }
+        </div>
+        <a href="#contact" class="contact-button">Contacto</a>
+    </div>
+</div>
+
+<style>
+    .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #1f1f1f; /* Fondo oscuro */
+        border: 1px solid #333333; /* Borde sutil */
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .profile-image img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #bb86fc; /* Color de acento (morado claro) */
+    }
+
+    .profile-info h1 {
+        margin: 1rem 0 0.5rem;
+        font-size: 2rem;
+        color: #e0e0e0; /* Texto claro */
+    }
+
+    .profile-info h2 {
+        margin: 0 0 1rem;
+        font-size: 1.5rem;
+        color: #bb86fc; /* Color de acento (morado claro) */
+        font-weight: 500;
+    }
+
+    .profile-info p {
+        font-size: 1.1rem;
+        color: #e0e0e0; /* Texto claro */
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .social-links img {
+        width: 24px;
+        height: 24px;
+        transition: transform 0.3s ease;
+    }
+
+    .social-links img:hover {
+        transform: scale(1.2);
+    }
+
+    .contact-button {
+        background-color: #bb86fc; /* Color de acento (morado claro) */
+        color: #121212; /* Fondo oscuro */
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .contact-button:hover {
+        opacity: 0.9;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .profile {
+            padding: 1.5rem;
+        }
+
+        .profile-info h1 {
+            font-size: 1.75rem;
+        }
+
+        .profile-info h2 {
+            font-size: 1.25rem;
+        }
+
+        .profile-info p {
+            font-size: 1rem;
+        }
+    }
+</style>

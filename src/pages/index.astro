@@ -1,8 +1,33 @@
 ---
 // index.astro
 import Layout from '../layouts/Layout.astro';
+import Profile from '../components/Profile.astro';
+
+// Datos de ejemplo para el perfil
+const profileData = {
+  name: "Juan Pérez",
+  career: "Desarrollador Full Stack",
+  bio: "Apasionado por crear soluciones innovadoras y escalables. Especializado en JavaScript, React, Node.js y desarrollo móvil con React Native.",
+  image: "https://via.placeholder.com/150", // Reemplaza con la URL de tu foto
+  socialLinks: [
+    {
+      name: "GitHub",
+      url: "https://github.com/tu-usuario",
+      icon: "https://cdn-icons-png.flaticon.com/512/25/25231.png", // Icono de GitHub
+    },
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/tu-usuario",
+      icon: "https://cdn-icons-png.flaticon.com/512/174/174857.png", // Icono de LinkedIn
+    },
+    {
+      name: "Twitter",
+      url: "https://twitter.com/tu-usuario",
+      icon: "https://cdn-icons-png.flaticon.com/512/124/124021.png", // Icono de Twitter
+    },
+  ],
+};
 ---
 <Layout>
-  <h1>Bienvenido a mi Sitio</h1>
-  <p>Este es el contenido de la página de inicio. Explora las otras secciones usando el menú de navegación.</p>
+  <Profile {...profileData} />
 </Layout>

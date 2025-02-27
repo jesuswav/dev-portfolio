@@ -1,0 +1,21 @@
+---
+// CodeSnippet.astro
+const { code } = Astro.props;
+---
+<div class="code-snippet">
+  <pre><code class="language-javascript">{JSON.stringify(code, null, 2)}</code></pre>
+</div>
+
+<style>
+  .code-snippet {
+    background-color: #1f1f1f; /* Fondo oscuro */
+    border: 1px solid #333333; /* Borde sutil */
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  pre {
+    margin: 0;
+  }
+</style>
