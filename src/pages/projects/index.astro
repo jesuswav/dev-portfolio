@@ -1,40 +1,53 @@
 ---
 // projects.astro
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/Card.astro";
 
 // Definir el tipo Project
 type Project = {
+  id: string;
   name: string;
   image: string;
   technologies: string[];
+  description: string;
 };
 
 // Array de proyectos de ejemplo
 const projects: Project[] = [
   {
+    id: "1",
     name: "Proyecto 1",
     image: "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
     technologies: ["React", "Node.js", "Tailwind CSS"],
+    description: "Descripción del proyecto 1",
   },
   {
+    id: "2",
     name: "Proyecto 2",
     image: "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
     technologies: ["Next.js", "TypeScript", "Firebase"],
+    description: "Descripción del proyecto 2",
   },
   {
+    id: "3",
     name: "Proyecto 3",
     image: "https://www.freeiconspng.com/uploads/no-image-icon-13.png",
     technologies: ["Vue.js", "Express", "MongoDB"],
+    description: "Descripción del proyecto 3",
   },
 ];
 ---
+
 <Layout>
   <h1>Mis Proyectos</h1>
   <div class="projects-grid">
-    {projects.map((project) => (
-      <Card project={project} />
-    ))}
+    {
+      projects.map((project) => (
+        <a href={`/projects/${project.id}`}>
+          <Card project={project} />
+        </a>
+      ))
+    }
   </div>
 </Layout>
 
