@@ -1,0 +1,328 @@
+---
+// src/components/RGBColorPicker.astro
+---
+
+<div id="rgb-color-picker">
+  <h2>Selector de colores RGB (Círculo)</h2>
+  <canvas id="color-canvas" width="300" height="300"></canvas>
+  <p>Color seleccionado: <span id="selected-color">#FFFFFF</span></p>
+  <p>Color complementario: <span id="complementary-color">Ninguno</span></p>
+  <p>Triada de colores:</p>
+  <ul>
+    <li>Color 1: <span id="triad-color-1">Ninguno</span></li>
+    <li>Color 2: <span id="triad-color-2">Ninguno</span></li>
+  </ul>
+  <div id="color-container">
+    <div id="color-s">color seleccionado</div>
+    <div id="color-c">color complementario</div>
+  </div>
+
+  <div id="triad-color-container">
+    <div id="triad-color-s">color seleccionado</div>
+    <div id="triad-color-c">color complementario</div>
+  </div>
+</div>
+
+<script>
+  // Obtén el canvas y su contexto
+  const canvas: any = document.getElementById("color-canvas");
+  const ctx: any = canvas.getContext("2d");
+
+  // Radio del círculo de colores
+  const radius = canvas.width / 2;
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+
+  // Dibuja el círculo de colores
+  function drawColorWheel(p0?: number, p1?: number) {
+    for (let angle = 0; angle < 360; angle += 1) {
+      const startAngle = (angle - 2) * (Math.PI / 180);
+      const endAngle = angle * (Math.PI / 180);
+
+      // Crea un gradiente de color para cada segmento del círculo
+      const gradient = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        0, // Centro del círculo
+        centerX,
+        centerY,
+        radius // Radio del círculo
+      );
+      const color = `hsl(${angle}, 100%, 50%)`;
+      gradient.addColorStop(0, color);
+      gradient.addColorStop(1, "white");
+
+      // Dibuja el segmento del círculo
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+      ctx.closePath();
+      ctx.fillStyle = gradient;
+      ctx.fill();
+    }
+  }
+
+  // Dibuja un punto en el canvas
+  function drawPoint(x: any, y: any, color: any) {
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, 2 * Math.PI); // Radio de 5 píxeles
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.strokeStyle = "#000";
+    ctx.stroke();
+  }
+
+  // Limpia el canvas (excepto el círculo de colores)
+  function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawColorWheel(); // Vuelve a dibujar el círculo de colores
+  }
+
+  // Función para obtener el color en la posición del mouse
+  function getColorAtPosition(x: number, y: number) {
+    const imageData = ctx.getImageData(x, y, 1, 1).data;
+    const hexColor = `#${imageData[0].toString(16).padStart(2, "0")}${imageData[1].toString(16).padStart(2, "0")}${imageData[2].toString(16).padStart(2, "0")}`;
+    return hexColor.toUpperCase();
+  }
+
+  // Función para convertir HSL a HEX
+  function hslToHex(h: number, s: number, l: number) {
+    l /= 100;
+    const a = (s * Math.min(l, 1 - l)) / 100;
+    const f = (n: number) => {
+      const k = (n + h / 30) % 12;
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color)
+        .toString(16)
+        .padStart(2, "0");
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
+  }
+
+  // Función para calcular el color complementario ---------
+  function getComplementaryColor(x: number, y: number) {
+    const xCor = x + 300 - x * 2;
+    const yCor = y + 300 - y * 2;
+    const complementaryColorCor = [xCor, yCor];
+    //console.log("Complementary color Coordenade: ", complementaryColorCor);
+    return complementaryColorCor;
+  }
+
+  function radianesAGradianes(radianes: number) {
+    return radianes * (200 / Math.PI);
+  }
+
+  // Función para calcular los colores de la triada
+  function getTriadColors(x: number, y: number) {
+    let r = Math.pow(x, 2) + Math.pow(y, 2)
+    let r2 = Math.sqrt(r)
+
+    let teta = Math.atan(y/x)
+    let tetaGradianes = radianesAGradianes(teta);
+    console.log(`teta en gradianes: ${tetaGradianes}`);
+    console.log(tetaGradianes)
+
+    let x1 = r2 * Math.cos(tetaGradianes) 
+    let y1 = r2 * Math.sin(tetaGradianes)
+
+    let x2 = r2 * Math.cos(tetaGradianes + 120)
+    let y2 = r2 * Math.sin(tetaGradianes + 120)
+
+    let x3 = r2 * Math.cos(tetaGradianes + 240)
+    let y3 = r2 * Math.sin(tetaGradianes + 240)
+
+    console.log('x1: ', x1)
+    console.log('y1: ', y1)
+    console.log('x2: ', x2)
+    console.log('y2: ', y2)
+    console.log('x3: ', x3)
+    console.log('y3: ', y3)
+
+    let coordenates = [x1, y1, x2, y2, x3, y3]
+
+    return coordenates
+}
+
+  function getTriadColors2(x: number, y: number) {
+    let xR = x - 150
+    let yR = y - 150
+
+    // calcular r
+    let r = Math.pow(xR, 2) + Math.pow(yR, 2)
+    let h = Math.sqrt(45000)
+    let r2 = Math.sqrt(r)
+    let r22 = r2
+
+    // calcular el angulo
+    let teta = Math.atan(yR/xR)
+    let tetaGradianes = radianesAGradianes(teta);
+    console.log(`teta en gradianes: ${tetaGradianes}`);
+    //console.log(tetaGradianes)
+
+    // console.log('r=', r2, 'teta=', tetaGradianes)
+
+    // coordenadas reales
+    let xReal = 150 + (r22 * Math.cos(tetaGradianes + 120))
+    let yReal = 150 + (r22 * Math.sin(tetaGradianes + 120))
+
+    let x2Real = 150 + (r22 * Math.cos(tetaGradianes + 240))
+    let y2Real = 150 + (r22 * Math.sin(tetaGradianes + 240))
+
+    console.log('xreal = ', xReal, ' yreal = ', yReal)
+
+    let coordenadasReales = [xReal, yReal, x2Real, y2Real]
+    // console.log(coordenadasReales)
+    return coordenadasReales
+  }
+
+  // Función para obtener las coordenadas de un color basado en su tono (hue)
+  function getCoordinatesFromHue(hue: number, radius: number) {
+    const angle = (hue - 90) * (Math.PI / 180); // Convertir a radianes
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+    return { x, y };
+  }
+
+  // Variables para almacenar los colores seleccionados
+  // let selectedColor = '#FFFFFF';
+  let complementaryColor = null;
+  let triadColors: any = [null, null];
+
+  let savedColor = null;
+
+  // Escucha el evento de movimiento del mouse en el canvas
+  canvas.addEventListener("mousemove", (event: any) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    console.log("X: ", x, "Y:", y);
+
+    // Verifica si el mouse está dentro del círculo
+    const distance = Math.sqrt((x - centerX) ** 2 + (y - centerY) ** 2);
+    if (distance <= radius) {
+      // Obtén el color en la posición del mouse
+      let selectedColor = getColorAtPosition(x, y);
+      console.log(selectedColor);
+      const complementaryCoordenates = getComplementaryColor(x, y);
+      const complementaryColorCode = getColorAtPosition(
+        complementaryCoordenates[0],
+        complementaryCoordenates[1]
+      );
+      console.log("color complementario", complementaryColorCode);
+
+      // Actualiza el texto y el color del span
+      const selectedColorSpan: any = document.getElementById("selected-color");
+      selectedColorSpan.textContent = selectedColor;
+      selectedColorSpan.style.color = selectedColor;
+
+      // Calcula el tono (hue) del color seleccionado
+      const hue = Math.atan2(y - centerY, x - centerX) * (180 / Math.PI) + 180;
+
+      // Calcula el color complementario
+      complementaryColor = getComplementaryColor(x, y);
+      const complementaryColorSpan: any = document.getElementById(
+        "complementary-color"
+      );
+      complementaryColorSpan.textContent = complementaryColorCode;
+      complementaryColorSpan.style.color = complementaryColorCode;
+
+      // Calcula los colores de la triada
+      triadColors = getTriadColors(x, y);
+      getTriadColors2(x, y)
+      //const triadColor1Span: any = document.getElementById("triad-color-1");
+      //const triadColor2Span: any = document.getElementById("triad-color-2");
+      //triadColor1Span.textContent = triadColors[0];
+      //triadColor1Span.style.color = triadColors[0];
+      //triadColor2Span.textContent = triadColors[1];
+      //triadColor2Span.style.color = triadColors[1];
+
+      // Limpia el canvas y dibuja los puntos
+      clearCanvas();
+      //drawPoint(x, y, selectedColor); // Punto del color seleccionado
+      //drawPoint(complementaryCoordenates[0], complementaryCoordenates[1], complementaryColorCode)
+
+      // Dibuja el punto del color complementario
+      const complementaryCoords = getCoordinatesFromHue(hue + 180, radius);
+      drawPoint(
+        complementaryCoords.x,
+        complementaryCoords.y,
+        complementaryColor
+      );
+
+      canvas.addEventListener("click", (event: any) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        console.log(x, y);
+
+        // Guarda el color seleccionado
+        savedColor = getColorAtPosition(x, y);
+        console.log(savedColor)
+
+        let complementCor = getComplementaryColor(x, y)
+        let complement = getColorAtPosition(complementCor[0], complementCor[1])
+        console.log(complement)
+
+        const colorS: any = document.getElementById("color-s");
+        const colorC: any = document.getElementById("color-c");
+        colorS.textContent = savedColor;
+        colorS.style.backgroundColor = savedColor;
+        /* colorC.textContent = complement;
+        colorC.style.backgroundColor = complement; */
+
+        let triadColors = getTriadColors2(x, y)
+        console.log(triadColors)
+        let triad1 = getColorAtPosition(triadColors[0], triadColors[1])
+        let triad2 = getColorAtPosition(triadColors[2], triadColors[3])
+
+        const triadColorS: any = document.getElementById("triad-color-s");
+        const triadColorC: any = document.getElementById("triad-color-c");
+        triadColorS.textContent = triad1;
+        triadColorS.style.backgroundColor = triad1;
+        triadColorC.textContent = triad2;
+        triadColorC.style.backgroundColor = triad2;
+
+
+
+        // Actualiza el texto y el color del span
+        //const savedColorSpan: any = document.getElementById("saved-color");
+        //savedColorSpan.textContent = savedColor;
+        //savedColorSpan.style.color = savedColor;
+      });
+
+      // Dibuja los puntos de la triada
+      //const triadCoords1 = getCoordinatesFromHue(hue + 120, radius);
+      //const triadCoords2 = getCoordinatesFromHue(hue + 240, radius);
+      //drawPoint(triadCoords1.x, triadCoords1.y, triadColors[0]);
+      //drawPoint(triadCoords2.x, triadCoords2.y, triadColors[1]);
+    }
+  });
+</script>
+
+<style>
+  #rgb-color-picker {
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  #color-canvas {
+    border: 1px solid #ccc;
+    border-radius: 0%;
+    cursor: crosshair;
+  }
+
+  #selected-color,
+  #complementary-color,
+  #triad-color-1,
+  #triad-color-2 {
+    font-weight: bold;
+  }
+
+  #color-s 
+  #color-c
+  #triad-color-s
+  #triad-color-c {
+    height: 30px;
+    width: ; 50px;
+  }
+</style>

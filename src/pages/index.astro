@@ -2,6 +2,7 @@
 // index.astro
 import Layout from '../layouts/Layout.astro';
 import Profile from '../components/Profile.astro';
+import ColorPicker from '../components/ColorPicker.astro';
 
 // Datos de ejemplo para el perfil
 const profileData = {
@@ -30,4 +31,5 @@ const profileData = {
 ---
 <Layout>
   <Profile {...profileData} />
+  <ColorPicker />
 </Layout>
