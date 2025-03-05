@@ -17,11 +17,36 @@ const apiResponse = {
 ---
 
 <Layout>
+  
+  <script>
+    // Function to detect scroll event
+    document.addEventListener("DOMContentLoaded", function () {
+      const elements = document.querySelectorAll(".hidden");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        {
+          threshold: 0.1, // Ajusta este valor para cambiar cuándo se activa la animación
+        }
+      );
+
+      elements.forEach((element) => {
+        observer.observe(element);
+      });
+    });
+  </script>
+
   <h1>Acerca de</h1>
   <p>Información sobre mi sitio y su propósito.</p>
 
   <!-- Grid layout de prueba -->
-  <div class="grid-main-container">
+  <div class="grid-main-container hidden">
     <div class="grid-container">
       <div class="grid-item">
         <div class="hover-content">Contenido</div>
@@ -44,7 +69,20 @@ const apiResponse = {
     </div>
   </div>
 
-  <CodeSnippet code={apiResponse} />
+  <div class="hidden">
+    <h1>esto es una prueba para el scroll</h1>
+  </div>
+  
+  <div class="hidden">
+    <h1>Holaaa</h1>
+    <h1>Holaaa</h1>
+    <h1>Holaaa</h1>
+    <h1>Holaaa</h1>
+  </div>
+
+  <section class="hidden">
+    <CodeSnippet code={apiResponse} />
+  </section>
 
   <style>
     .grid-main-container {
@@ -113,6 +151,22 @@ const apiResponse = {
     .grid-item:hover .hover-content {
       opacity: 1;
       transition: all 0.3s ease;
+    }
+
+    /* Scroll animations */
+    /* Estilos iniciales para los elementos que quieres animar */
+    .hidden {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+    }
+
+    /* Estilos cuando el elemento es visible */
+    .visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </Layout>

@@ -1,8 +1,8 @@
 ---
 // index.astro
-import Layout from '../layouts/Layout.astro';
-import Profile from '../components/Profile.astro';
-import ColorPicker from '../components/ColorPicker.astro';
+import Layout from "../layouts/Layout.astro";
+import Profile from "../components/Profile.astro";
+import ColorPicker from "../components/ColorPicker.astro";
 
 // Datos de ejemplo para el perfil
 const profileData = {
@@ -28,8 +28,144 @@ const profileData = {
     },
   ],
 };
+
+const gradients = [
+  `background: linear-gradient(45deg, #ff7e5f, #feb47b); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Rojo a naranja
+  `background: linear-gradient(45deg, #6a11cb, #fc67fa); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Morado a rosa
+  `background: linear-gradient(45deg, #00c6fb, #005bea); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Azul a verde agua
+  `background: linear-gradient(45deg, #a8e063, #56ab2f); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Verde a amarillo
+  `background: linear-gradient(45deg, #ff6e7f, #bfe9ff); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Rosa a amarillo
+  `background: linear-gradient(45deg, #0f0c29, #302b63, #24243e); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Azul oscuro a morado
+  `background: linear-gradient(45deg, #f46b45, #eea849); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Naranja a rojo oscuro
+  `background: linear-gradient(45deg, #00d2ff, #3a7bd5); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Verde agua a azul claro
+  `background: linear-gradient(45deg, #ff9a9e, #fad0c4); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Rosa suave a beige
+  `background: linear-gradient(45deg, #a18cd1, #fbc2eb); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Lila a rosa pastel
+  `background: linear-gradient(45deg, #fbc2eb, #a6c1ee); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Rosa pastel a azul pastel
+  `background: linear-gradient(45deg, #84fab0, #8fd3f4); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Verde menta a azul claro
+  `background: linear-gradient(45deg, #a6c0fe, #f68084); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Azul claro a rosa claro
+  `background: linear-gradient(45deg, #d4fc79, #96e6a1); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Verde lima a verde claro
+  `background: linear-gradient(45deg, #4facfe, #00f2fe); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Azul cielo a turquesa
+  `background: linear-gradient(45deg, #f093fb, #f5576c); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Rosa intenso a rojo
+  `background: linear-gradient(45deg, #43e97b, #38f9d7); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Verde brillante a turquesa
+  `background: linear-gradient(45deg, #fa709a, #fee140); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Rosa a amarillo brillante
+  `background: linear-gradient(45deg, #30cfd0, #330867); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Turquesa a morado oscuro
+  `background: linear-gradient(45deg, #f43b47, #453a94); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Rojo a azul oscuro
+  `background: linear-gradient(45deg, #5f72bd, #9b23ea); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Azul medio a morado
+  `background: linear-gradient(45deg, #09203f, #537895); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Azul noche a gris azulado
+  `background: linear-gradient(45deg, #ff5858, #f09819); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Rojo a naranja oscuro
+  `background: linear-gradient(45deg, #16bffd, #cb3066); width: ${Math.floor(Math.random() * 150) + 50}px;`, // Azul cielo a rojo oscuro
+];
 ---
+
 <Layout>
-  <Profile {...profileData} />
-  <ColorPicker />
+  <!-- <Profile {...profileData} /> -->
+  <script>
+    // Function to detect scroll event
+    document.addEventListener("DOMContentLoaded", function () {
+      const elements = document.querySelectorAll(".hidden");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        {
+          threshold: 0.1, // Ajusta este valor para cambiar cuándo se activa la animación
+        }
+      );
+
+      elements.forEach((element) => {
+        observer.observe(element);
+      });
+    });
+  </script>
+
+  <section class="hidden">
+    <!-- First grid -->
+    <div class="grid-container">
+      <div class="grid-item" style={`${gradients[0]}`}></div>
+      <div class="grid-item" style={`${gradients[1]}`}></div>
+      <div class="grid-item" style={`${gradients[2]}`}></div>
+    </div>
+    <!-- Second grid -->
+    <div class="grid-container">
+      <div class="grid-item" style={`${gradients[5]}`}></div>
+      <div class="grid-item" style={`${gradients[6]}`}></div>
+      <div class="grid-item" style={`${gradients[7]}`}></div>
+    </div>
+    <!-- Nanem and profile -->
+    <div class="profile-container">
+      <h1 class="profile-title">Jesús García</h1>
+      <h3 class="profile-subtitle">Frontend Developer</h3>
+    </div>
+    <!-- Third grid -->
+    <div class="grid-container">
+      <div class="grid-item" style={`${gradients[10]}`}></div>
+      <div class="grid-item" style={`${gradients[11]}`}></div>
+      <div class="grid-item" style={`${gradients[12]}`}></div>
+      <!-- <div class="grid-item" style={`${gradients[13]}`}></div> -->
+      <!-- <div class="grid-item" style={`${gradients[14]}`}></div> -->
+      <div class="grid-item" style={`${gradients[3]}`}></div>
+    </div>
+    <!-- Fourth grid -->
+    <div class="grid-container">
+      <div class="grid-item" style={`${gradients[15]}`}></div>
+      <div class="grid-item" style={`${gradients[16]}`}></div>
+      <div class="grid-item" style={`${gradients[17]}`}></div>
+      <div class="grid-item" style={`${gradients[18]}`}></div>
+      <div class="grid-item" style={`${gradients[19]}`}></div>
+      <div class="grid-item" style={`${gradients[9]}`}></div>
+      <div class="grid-item" style={`${gradients[4]}`}></div>
+      <div class="grid-item" style={`${gradients[8]}`}></div>
+    </div>
+  </section>
+
+  <!-- Styles -->
+  <style>
+    .profile-container {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      margin: 32px 8px 32px 8px;
+    }
+    .profile-title {
+      margin: 2px;
+    }
+    .profile-subtitle {
+      margin: 2px;
+    }
+
+    /* Grid styles */
+    .grid-container {
+      display: flex;
+      flex-direction: row;
+      width: 65%;
+      gap: 12px;
+      padding: 6px 0px;
+    }
+    .grid-item {
+      display: flex;
+      height: 28px;
+      border-radius: 18px;
+    }
+
+    /* Scroll animations */
+    /* Estilos iniciales para los elementos que quieres animar */
+    .hidden {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+    }
+
+    /* Estilos cuando el elemento es visible */
+    .visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </Layout>
