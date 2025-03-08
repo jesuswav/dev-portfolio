@@ -4,6 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import Profile from "../components/Profile.astro";
 import ColorPicker from "../components/ColorPicker.astro";
 import BentoGrid from "../components/BentoGrid.astro";
+import StackComponent from "../components/StackComponent.astro";
 
 // Datos de ejemplo para el perfil
 const profileData = {
@@ -123,8 +124,12 @@ const gradients = [
       <div class="grid-item" style={`${gradients[8]}`}></div>
     </div>
 
-    <BentoGrid />
-
+    <div class="hidden">
+      <StackComponent />
+    </div>
+    <div class="hidden">
+      <BentoGrid />
+    </div>
   </section>
 
   <!-- Styles -->
@@ -137,9 +142,11 @@ const gradients = [
     }
     .profile-title {
       margin: 2px;
+      font-size: 4rem;
     }
     .profile-subtitle {
       margin: 2px;
+      font-size: 2rem;
     }
 
     /* Grid styles */

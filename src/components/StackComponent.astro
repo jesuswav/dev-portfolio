@@ -1,0 +1,39 @@
+---
+import IconComponent from "./Icons/IconComponent.astro";
+---
+
+<div class="stack-component">
+  <div class="stack-item">
+    <h4>Frontend Stack</h4>
+    <div class="content">
+      <IconComponent name="javascript" />
+      <IconComponent name="tailwind" />
+      <IconComponent name="react" />
+    </div>
+  </div>
+  <div class="stack-item">
+    <h4>Backend Stack</h4>
+    <div class="content">
+      <IconComponent name="python" />
+    </div>
+  </div>
+</div>
+
+<style>
+  .stack-component {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    height: 300px;
+    gap: 10px;
+  }
+  .stack-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content {
+  }
+</style>
